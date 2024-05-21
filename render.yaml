@@ -5,7 +5,7 @@ services:
     plan: free
     region: oregon
     buildCommand: "./mvnw -f service-eureka-server/pom.xml clean package -DskipTests"
-    dockerfilePath: ./service-eureka-server/Dockerfile
+    dockerfilePath: service-eureka-server/Dockerfile
     startCommand: ""
     envVars:
       - key: SPRING_PROFILES_ACTIVE
