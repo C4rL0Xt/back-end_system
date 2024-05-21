@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: eureka-server
+    env: docker
+    plan: free
+    region: oregon
+    buildCommand: "./mvnw -f service-eureka-server/pom.xml clean package -DskipTests"
+    dockerfilePath: ./service-eureka-server/Dockerfile
+    startCommand: ""
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: EUREKA_INSTANCE_HOSTNAME
+        value: eureka-server-on-render
+      - key: EUREKA_CLIENT_SERVICEURL-DEFAULTZONE
+        value: https://eureka-server-on-render.onrender.com/eureka
