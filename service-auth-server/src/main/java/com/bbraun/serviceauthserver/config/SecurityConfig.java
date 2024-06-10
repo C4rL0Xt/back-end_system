@@ -1,9 +1,10 @@
-package com.fisi.aulavirtual.serviceauthserver.config;
+package com.bbraun.serviceauthserver.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,9 +41,11 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
 @Configuration
+@RequiredArgsConstructor
 @Slf4j
 public class SecurityConfig {
 
+    private final PasswordEncoder passwordEncoder;
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -69,13 +72,13 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll().anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
-
+        http.csrf(csrf -> csrf.disable());
         return http.build();
     }
 
-
+/*
     @Bean
     public UserDetailsService userDetailsService(){
         UserDetails userDetails = User.withUsername("user")
@@ -85,12 +88,12 @@ public class SecurityConfig {
 
         return new InMemoryUserDetailsManager(userDetails);
     }
-
+*/
     @Bean
     public RegisteredClientRepository registeredClientRepository(){
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("client")
-                .clientSecret("{noop}secret")
+                .clientSecret(passwordEncoder.encode("secret"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
