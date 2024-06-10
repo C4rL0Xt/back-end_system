@@ -6,16 +6,9 @@ spring:
           enabled: true
       routes:
         - id: service-producto
-          uri: lb://service-producto
+          uri: http://localhost:8080
           predicates:
-            - Path=/api/productos/**
-            - Method=GET, POST
-          filters:
-            - StripPrefix=2
-        - id: node-msc
-          uri: lb://node-msc
-          predicates:
-            - Path=/api/clientes/**
+            - Path=/api/almacen/**
             - Method=GET, POST
           filters:
             - StripPrefix=2

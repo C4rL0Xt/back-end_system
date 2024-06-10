@@ -1,4 +1,4 @@
-package com.bbraun.producto.models.service;
+package com.bbraun.producto.service;
 
 import com.bbraun.producto.models.entity.Categoria;
 

@@ -13,12 +13,19 @@
         <option value="$PROJECT_DIR$/microservices/service-oauth/pom.xml" />
         <option value="$PROJECT_DIR$/service-eureka-server/pom.xml" />
         <option value="$PROJECT_DIR$/service-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/api-gateway-principal/pom.xml" />
+        <option value="$PROJECT_DIR$/service-lote/pom.xml" />
+        <option value="$PROJECT_DIR$/service-auth-server/pom.xml" />
+        <option value="$PROJECT_DIR$/auth-server/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/api-gateway-principal/pom.xml" />
+        <option value="$PROJECT_DIR$/auth-server/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/service-auth/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/service-oauth/pom.xml" />
+        <option value="$PROJECT_DIR$/service-lote/pom.xml" />
       </set>
     </option>
   </component>

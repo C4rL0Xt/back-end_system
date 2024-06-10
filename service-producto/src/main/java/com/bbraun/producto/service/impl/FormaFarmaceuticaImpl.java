@@ -1,17 +1,18 @@
-package com.bbraun.producto.models.service;
+package com.bbraun.producto.service.impl;
 
-import com.bbraun.producto.models.dao.FormaFarmaceuticaDAO;
+import com.bbraun.producto.repository.FormaFarmaceuticaRepository;
 import com.bbraun.producto.models.entity.FormaFarmaceutica;
+import com.bbraun.producto.service.IFormaFarmaceuticaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class FormaFarmaceuticaImpl implements IFormaFarmaceuticaService{
+public class FormaFarmaceuticaImpl implements IFormaFarmaceuticaService {
 
     @Autowired
-    private FormaFarmaceuticaDAO formaFarmaceuticaDAO;
+    private FormaFarmaceuticaRepository formaFarmaceuticaDAO;
 
     @Override
     public List<FormaFarmaceutica> findAll() {

@@ -1,5 +1,6 @@
-package com.bbraun.producto.models.service;
+package com.bbraun.producto.service;
 
+import com.bbraun.producto.models.dto.ProductoDTO;
 import com.bbraun.producto.models.entity.Categoria;
 import com.bbraun.producto.models.entity.Producto;
 
@@ -16,4 +17,9 @@ public interface IProductoService {
     public void deleteById(String id);
 
     List<Producto> findByIdCategoria(Categoria categoria);
+
+    List<Producto> findByNombre(String nombre);
+
+    ProductoDTO findLotesDisponibles(String id);
+
 }

@@ -1,7 +1,8 @@
-package com.bbraun.producto.models.service;
+package com.bbraun.producto.service.impl;
 
-import com.bbraun.producto.models.dao.CategoriaDAO;
+import com.bbraun.producto.repository.CategoriaRepository;
 import com.bbraun.producto.models.entity.Categoria;
+import com.bbraun.producto.service.ICategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class CategoriaServiceImpl implements ICategoriaService{
+public class CategoriaServiceImpl implements ICategoriaService {
 
     @Autowired
-    private CategoriaDAO categoriaDAO;
+    private CategoriaRepository categoriaDAO;
 
     @Override
     @Transactional(readOnly = true)

@@ -7,24 +7,32 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="producto" />
         <module name="eureka-server" />
         <module name="gateway" />
-        <module name="producto" />
+        <module name="service-auth-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="api-gateway-principal" target="17" />
+      <module name="auth-server" target="17" />
       <module name="frontend" target="17" />
       <module name="service-auth" target="17" />
+      <module name="service-lote" target="17" />
       <module name="service-oauth" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gateway-principal" options="-parameters" />
+      <module name="auth-server" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="frontend" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="producto" options="-parameters" />
       <module name="service-auth" options="-parameters" />
+      <module name="service-auth-server" options="-parameters" />
+      <module name="service-lote" options="-parameters" />
       <module name="service-oauth" options="-parameters" />
     </option>
   </component>
