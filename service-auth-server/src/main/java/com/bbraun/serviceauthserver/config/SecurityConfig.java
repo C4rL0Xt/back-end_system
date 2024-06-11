@@ -1,5 +1,6 @@
 package com.bbraun.serviceauthserver.config;
 
+import com.bbraun.serviceauthserver.service.ClientService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -52,6 +53,7 @@ import java.util.stream.Collectors;
 public class SecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
+    private final ClientService clientService;
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -78,7 +80,7 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll().anyRequest().authenticated())
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**","/client/**").permitAll().anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());
         return http.build();
@@ -95,6 +97,8 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(userDetails);
     }
 */
+
+    /*
     @Bean
     public RegisteredClientRepository registeredClientRepository(){
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
@@ -111,7 +115,7 @@ public class SecurityConfig {
 
         return new InMemoryRegisteredClientRepository(registeredClient);
     }
-
+*/
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(){
         return context -> {
