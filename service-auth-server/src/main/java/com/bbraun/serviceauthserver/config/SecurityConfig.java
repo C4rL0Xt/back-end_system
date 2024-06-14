@@ -80,7 +80,7 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**","/client/**").permitAll().anyRequest().authenticated())
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**","/client/**","/login").permitAll().anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());
         return http.build();
