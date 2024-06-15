@@ -58,6 +58,7 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
             throws Exception {
+        http.cors(Customizer.withDefaults());
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());    // Enable OpenID Connect 1.0
@@ -80,42 +81,13 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.cors(Customizer.withDefaults());
         http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**","/client/**","/login").permitAll().anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());
         return http.build();
     }
 
-/*
-    @Bean
-    public UserDetailsService userDetailsService(){
-        UserDetails userDetails = User.withUsername("user")
-                .password("{noop}user")
-                .authorities("ROLE_USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
-    }
-*/
-
-    /*
-    @Bean
-    public RegisteredClientRepository registeredClientRepository(){
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("client")
-                .clientSecret(passwordEncoder.encode("secret"))
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri("https://oauthdebugger.com/debug")
-                .scope(OidcScopes.OPENID)
-                .clientSettings(ClientSettings.builder().requireProofKey(true).build())
-                .build();
-
-        return new InMemoryRegisteredClientRepository(registeredClient);
-    }
-*/
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(){
         return context -> {
@@ -165,4 +137,35 @@ public class SecurityConfig {
         }
         return keyPair;
     }
+
+    /*
+    @Bean
+    public UserDetailsService userDetailsService(){
+        UserDetails userDetails = User.withUsername("user")
+                .password("{noop}user")
+                .authorities("ROLE_USER")
+                .build();
+
+        return new InMemoryUserDetailsManager(userDetails);
+    }
+*/
+
+    /*
+    @Bean
+    public RegisteredClientRepository registeredClientRepository(){
+        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("client")
+                .clientSecret(passwordEncoder.encode("secret"))
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .redirectUri("https://oauthdebugger.com/debug")
+                .scope(OidcScopes.OPENID)
+                .clientSettings(ClientSettings.builder().requireProofKey(true).build())
+                .build();
+
+        return new InMemoryRegisteredClientRepository(registeredClient);
+    }
+*/
 }
