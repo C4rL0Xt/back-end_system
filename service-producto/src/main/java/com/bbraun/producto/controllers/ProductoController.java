@@ -24,6 +24,10 @@ public class ProductoController {
     @Autowired
     private ILoteService loteService;
 
+    @GetMapping("/")
+    public String hello(){
+        return "Hola";
+    }
     @GetMapping("/listar")
     public List<Producto> listarProductos(){
         return (List<Producto>) productoService.findAll();

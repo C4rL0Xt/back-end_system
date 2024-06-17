@@ -68,6 +68,9 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final ClientService clientService;
 
+
+    private static final String CUSTOM_CONSENT_PAGE = "/oauth2/consent";
+
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -75,6 +78,7 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults());
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+                .authorizationEndpoint(auth -> auth.consentPage(CUSTOM_CONSENT_PAGE))
                 .oidc(Customizer.withDefaults());    // Enable OpenID Connect 1.0
         http.oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()));
         http.exceptionHandling(exception -> exception.authenticationEntryPoint(

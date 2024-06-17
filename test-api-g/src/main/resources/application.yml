@@ -1,23 +1,13 @@
-logging:
-  level:
-    org.springframework: DEBUG
-    org.springframework.cloud.gateway: TRACE
+server:
+  port: 9000
 spring:
   application:
-    name: service-gateway
+    name: gateway
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
+      default-filters:
+        - TokenRelay=
       routes:
-        - id: service-product
-          uri: http://localhost:8001
-          predicates:
-            - Path=/api/almacen/**
-            - Method=GET, POST
-          filters:
-            - StripPrefix=2
         - id: route1
           uri: http://localhost:8080/
           predicates:
@@ -26,9 +16,10 @@ spring:
           uri: http://localhost:4200/
           predicates:
             - Path=/**
-
-      default-filters:
-        - TokenRelay=
+        - id: yt
+          uri: https://www.youtube.com
+          predicates:
+            - Path=/yt
   security:
     oauth2:
       client:
@@ -43,5 +34,3 @@ spring:
         provider:
           spring:
             issuer-uri: http://localhost:8100
-server:
-  port: 9000
