@@ -27,10 +27,10 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway-principal" options="-parameters" />
       <module name="auth-server" options="-parameters" />
-      <module name="eureka-server" options="-parameters" />
+      <module name="eureka-server" options="" />
       <module name="frontend" options="-parameters" />
-      <module name="gateway" options="-parameters" />
-      <module name="producto" options="-parameters" />
+      <module name="gateway" options="" />
+      <module name="producto" options="" />
       <module name="service-auth" options="-parameters" />
       <module name="service-auth-server" options="-parameters" />
       <module name="service-lote" options="-parameters" />

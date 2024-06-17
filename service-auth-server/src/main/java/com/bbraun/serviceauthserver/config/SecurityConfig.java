@@ -1,6 +1,8 @@
 package com.bbraun.serviceauthserver.config;
 
+import com.bbraun.serviceauthserver.repository.AuthorizationConsentRepository;
 import com.bbraun.serviceauthserver.service.ClientService;
+import com.bbraun.serviceauthserver.service.JpaOAuth2AuthorizationConsentService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -13,8 +15,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +28,10 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -34,7 +43,10 @@ import org.springframework.security.oauth2.server.authorization.token.JwtEncodin
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.Key;
@@ -50,10 +62,12 @@ import java.util.stream.Collectors;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
+@EnableWebSecurity
 public class SecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
     private final ClientService clientService;
+
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -62,16 +76,9 @@ public class SecurityConfig {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());    // Enable OpenID Connect 1.0
-        http
-                // Redirect to the login page when not authenticated from the
-                // authorization endpoint
-                .exceptionHandling((exceptions) -> exceptions
-                        .defaultAuthenticationEntryPointFor(
-                                new LoginUrlAuthenticationEntryPoint("/login"),
-                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-                        )
-                )
-                // Accept access tokens for User Info and/or Client Registration
+        http.oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()));
+        http.exceptionHandling(exception -> exception.authenticationEntryPoint(
+                new LoginUrlAuthenticationEntryPoint("/login")))
                 .oauth2ResourceServer((resourceServer) -> resourceServer
                         .jwt(Customizer.withDefaults()));
 
@@ -82,11 +89,26 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults());
-        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**","/client/**","/login").permitAll().anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults());
+        http
+                .authorizeHttpRequests(auth ->
+                        auth
+                                .requestMatchers("/auth/**","/client/**","/login").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .formLogin(formLogin ->
+                        formLogin.loginPage("/login")
+                                .permitAll());
+        http.logout(logout -> {
+            logout
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout","POST"))
+                    .logoutSuccessUrl("http://localhost:4200/logout");
+        });
+
         http.csrf(csrf -> csrf.disable());
         return http.build();
     }
+
+
 
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(){
@@ -102,6 +124,22 @@ public class SecurityConfig {
             }
         };
     }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
+
+    @Bean
+    public OAuth2AuthorizationService authorizationService() {
+        return new InMemoryOAuth2AuthorizationService();
+    }
+
 
     @Bean
     public AuthorizationServerSettings authorizationServerSettings(){
