@@ -28,6 +28,7 @@
         <option value="$PROJECT_DIR$/microservices/service-auth/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/service-oauth/pom.xml" />
         <option value="$PROJECT_DIR$/service-lote/pom.xml" />
+        <option value="$PROJECT_DIR$/test-api-g/pom.xml" />
       </set>
     </option>
   </component>

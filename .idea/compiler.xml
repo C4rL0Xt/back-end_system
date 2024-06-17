@@ -12,7 +12,6 @@
         <module name="eureka-server" />
         <module name="gateway" />
         <module name="service-auth-server" />
-        <module name="test-api-g" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -22,6 +21,7 @@
       <module name="service-auth" target="17" />
       <module name="service-lote" target="17" />
       <module name="service-oauth" target="17" />
+      <module name="test-api-g" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
