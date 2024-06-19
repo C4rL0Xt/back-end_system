@@ -101,11 +101,12 @@ public class SecurityConfig {
                 )
                 .formLogin(formLogin ->
                         formLogin.loginPage("/login")
+                                //.successHandler(new CustomAuthenticationSuccessHandler())
                                 .permitAll());
         http.logout(logout -> {
             logout
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout","POST"))
-                    .logoutSuccessUrl("http://localhost:4200/logout");
+                    .logoutSuccessUrl("http://localhost:4200/main");
         });
 
         http.csrf(csrf -> csrf.disable());

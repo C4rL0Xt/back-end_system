@@ -11,37 +11,12 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: service-product
+        - id: service-producto
           uri: http://localhost:8001
           predicates:
             - Path=/api/almacen/**
             - Method=GET, POST
           filters:
             - StripPrefix=2
-        - id: route1
-          uri: http://localhost:8080/
-          predicates:
-            - Path=/resource/**
-        - id: angular
-          uri: http://localhost:4200/
-          predicates:
-            - Path=/**
-
-      default-filters:
-        - TokenRelay=
-  security:
-    oauth2:
-      client:
-        registration:
-          gateway:
-            provider: spring
-            client-id: gateway
-            client-secret: secret
-            scope: openid
-            authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:9000/login/oauth2/code/gateway
-        provider:
-          spring:
-            issuer-uri: http://localhost:8100
 server:
   port: 9000

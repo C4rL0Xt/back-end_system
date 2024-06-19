@@ -11,12 +11,14 @@ import org.springframework.security.oauth2.client.oidc.web.server.logout.OidcCli
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
-
+/*
 @Configuration
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
 
+ */
+public class SecurityConfig {
+/*
     private final ReactiveClientRegistrationRepository repository;
 
     @Bean
@@ -36,4 +38,7 @@ public class SecurityConfig {
         successHandler.setPostLogoutRedirectUri("{baseUrl}/logged-out");
         return successHandler;
     }
+
+    */
+
 }
