@@ -2,11 +2,26 @@ logging:
   level:
     org.springframework: DEBUG
     org.springframework.cloud.gateway: TRACE
+
 spring:
   application:
     name: service-gateway
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
       discovery:
         locator:
           enabled: true
@@ -15,8 +30,14 @@ spring:
           uri: http://localhost:8001
           predicates:
             - Path=/api/almacen/**
-            - Method=GET, POST
           filters:
             - StripPrefix=2
+        - id: service-empleado
+          uri: http://localhost:8009
+          predicates:
+            - Path=/api/rrhh/**
+          filters:
+            - StripPrefix=2
+
 server:
   port: 9000

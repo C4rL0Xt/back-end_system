@@ -33,4 +33,14 @@ public class FormaFarmaceuticaImpl implements IFormaFarmaceuticaService {
     public void deleteById(String id) {
         formaFarmaceuticaDAO.deleteById(id);
     }
+
+    @Override
+    public List<String> findFormaName() {
+        return formaFarmaceuticaDAO.findAllForms();
+    }
+
+    @Override
+    public FormaFarmaceutica findByName(String nombre) {
+        return formaFarmaceuticaDAO.findFormaByForma(nombre);
+    }
 }

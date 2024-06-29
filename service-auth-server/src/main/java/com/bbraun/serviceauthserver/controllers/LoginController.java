@@ -16,10 +16,15 @@ public class LoginController {
         return "login";
     }
 
+
+
+
     @GetMapping("/logout")
     public String logout(){
         return "logout";
     }
+
+
 
     @PostMapping("/logout")
     public String logoutOK(HttpSecurity http) throws Exception {

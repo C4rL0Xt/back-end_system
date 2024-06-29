@@ -19,6 +19,7 @@
         <option value="$PROJECT_DIR$/auth-server/pom.xml" />
         <option value="$PROJECT_DIR$/service-resource-server/pom.xml" />
         <option value="$PROJECT_DIR$/test-api-g/pom.xml" />
+        <option value="$PROJECT_DIR$/service-empleado/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

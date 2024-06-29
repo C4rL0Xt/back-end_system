@@ -48,6 +48,7 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.security.Key;
 import java.security.KeyPair;
@@ -69,6 +70,7 @@ public class SecurityConfig {
     private final ClientService clientService;
 
 
+
     private static final String CUSTOM_CONSENT_PAGE = "/oauth2/consent";
 
     @Bean
@@ -76,6 +78,7 @@ public class SecurityConfig {
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
             throws Exception {
         http.cors(Customizer.withDefaults());
+        //http.cors((cors) -> cors.configurationSource(corsConfigurationSource));
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .authorizationEndpoint(auth -> auth.consentPage(CUSTOM_CONSENT_PAGE))
@@ -93,6 +96,7 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults());
+        //http.cors((cors) -> cors.configurationSource(corsConfigurationSource));
         http
                 .authorizeHttpRequests(auth ->
                         auth
@@ -107,6 +111,7 @@ public class SecurityConfig {
             logout
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout","POST"))
                     .logoutSuccessUrl("http://localhost:4200/main");
+                    //.logoutSuccessHandler(new CustomLogoutSuccessHandler());
         });
 
         http.csrf(csrf -> csrf.disable());

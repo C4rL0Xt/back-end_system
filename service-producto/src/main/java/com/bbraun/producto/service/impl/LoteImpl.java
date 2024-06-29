@@ -16,6 +16,17 @@ public class LoteImpl implements ILoteService {
     private LoteRepository loteRepository;
 
     @Override
+    public Lote save(Lote lote) {
+
+        return loteRepository.save(lote);
+    }
+
+    @Override
+    public List<Lote> saveAll(List<Lote> lotes) {
+        return loteRepository.saveAll(lotes);
+    }
+
+    @Override
     public List<Lote> findAll() {
         return loteRepository.findAll();
     }
@@ -28,5 +39,10 @@ public class LoteImpl implements ILoteService {
     @Override
     public List<Lote> findLotesDisponiblesPorProductoId(String id, String estado) {
         return loteRepository.findAllByProducto_IdProductoAndAndEstadosDisponibilidad_Estado(id,estado);
+    }
+
+    @Override
+    public String getLastCodeLote() {
+        return loteRepository.getLastCodeLote().get(0);
     }
 }

@@ -11,6 +11,7 @@
         <module name="producto" />
         <module name="eureka-server" />
         <module name="gateway" />
+        <module name="service-empleado" />
         <module name="service-auth-server" />
       </profile>
     </annotationProcessing>
@@ -34,6 +35,7 @@
       <module name="producto" options="-parameters" />
       <module name="service-auth" options="-parameters" />
       <module name="service-auth-server" options="-parameters" />
+      <module name="service-empleado" options="-parameters" />
       <module name="service-lote" options="-parameters" />
       <module name="service-oauth" options="-parameters" />
       <module name="service-resource-server" options="-parameters" />

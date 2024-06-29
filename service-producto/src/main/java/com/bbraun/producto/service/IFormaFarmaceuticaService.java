@@ -13,4 +13,8 @@ public interface IFormaFarmaceuticaService {
     public FormaFarmaceutica save(FormaFarmaceutica formaFarmaceutica);
 
     public void deleteById(String id);
+
+    public List<String> findFormaName();
+
+    FormaFarmaceutica findByName(String nombre);
 }

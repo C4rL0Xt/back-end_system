@@ -3,10 +3,7 @@ package com.bbraun.producto.controllers;
 import com.bbraun.producto.models.entity.Lote;
 import com.bbraun.producto.service.ILoteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,11 @@ public class LoteController {
     public List<Lote> listarLotesPorProducto(@PathVariable("idproducto") String idproducto){
 
         return (List<Lote>) loteService.findLotesByProductoId(idproducto);
+    }
+
+
+    @GetMapping("/last-code")
+    public String getLastCodeLote(){
+        return loteService.getLastCodeLote();
     }
 }

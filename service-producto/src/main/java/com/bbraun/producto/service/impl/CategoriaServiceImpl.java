@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,5 +36,15 @@ public class CategoriaServiceImpl implements ICategoriaService {
     @Override
     public void deleteById(String id) {
         categoriaDAO.deleteById(id);
+    }
+
+    @Override
+    public List<String> findAllCat() {
+        return categoriaDAO.findAllCategories();
+    }
+
+    @Override
+    public Categoria findByName(String nombre) {
+        return categoriaDAO.findCategoriaByCategoria(nombre);
     }
 }

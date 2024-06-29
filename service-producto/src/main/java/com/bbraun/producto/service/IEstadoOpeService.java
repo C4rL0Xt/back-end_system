@@ -7,4 +7,8 @@ import java.util.List;
 public interface IEstadoOpeService {
 
     List<EstadoOperativo> findAll();
+
+    EstadoOperativo findByEstado(String estado);
+
+    List<String> findAllEstados();
 }

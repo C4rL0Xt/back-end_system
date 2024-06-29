@@ -1,9 +1,14 @@
 package com.bbraun.producto.models.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "productos")
+@NoArgsConstructor
+@Builder
 public class Producto {
 
     @Id
@@ -13,13 +18,28 @@ public class Producto {
     @OneToOne
     @JoinColumn(name = "id_categoria")
     private Categoria idCategoria;
-    private String idFormaFarmaceutica;
+    @OneToOne
+    @JoinColumn(name = "id_forma_farmaceutica")
+    private FormaFarmaceutica idFormaFarmaceutica;
     private String idAlmacen;
     private String nombre;
     private Float precio;
     private String concentracion;
     private String presentacion;
     private String descripcion;
+
+
+    public Producto(String idProducto, Categoria idCategoria, FormaFarmaceutica idFormaFarmaceutica, String idAlmacen, String nombre, Float precio, String concentracion, String presentacion, String descripcion) {
+        this.idProducto = idProducto;
+        this.idCategoria = idCategoria;
+        this.idFormaFarmaceutica = idFormaFarmaceutica;
+        this.idAlmacen = idAlmacen;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.concentracion = concentracion;
+        this.presentacion = presentacion;
+        this.descripcion = descripcion;
+    }
 
     public String getIdProducto() {
         return idProducto;
@@ -37,11 +57,11 @@ public class Producto {
         this.idCategoria = idCategoria;
     }
 
-    public String getIdFormaFarmaceutica() {
+    public FormaFarmaceutica getIdFormaFarmaceutica() {
         return idFormaFarmaceutica;
     }
 
-    public void setIdFormaFarmaceutica(String idFormaFarmaceutica) {
+    public void setIdFormaFarmaceutica(FormaFarmaceutica idFormaFarmaceutica) {
         this.idFormaFarmaceutica = idFormaFarmaceutica;
     }
 

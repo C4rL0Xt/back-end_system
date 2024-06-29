@@ -42,4 +42,9 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
         return new MessageDTO("usuario: "+usuario.getEmail()+ " guardado.");
     }
+
+    public Usuario findByEmail(String email){
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("usuario no encontrado"));
+    }
 }

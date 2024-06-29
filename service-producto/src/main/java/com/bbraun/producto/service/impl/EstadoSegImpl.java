@@ -18,4 +18,14 @@ public class EstadoSegImpl implements IEstadoSegService {
     public List<EstadoSeguridad> findAll() {
         return estadoSeguridadRepository.findAll();
     }
+
+    @Override
+    public EstadoSeguridad findByEstado(String estado) {
+        return estadoSeguridadRepository.findByEstado(estado);
+    }
+
+    @Override
+    public List<String> findAllEstados() {
+        return estadoSeguridadRepository.findAllByEstado();
+    }
 }

@@ -13,4 +13,8 @@ public interface ICategoriaService {
     public Categoria save(Categoria categoria);
 
     public void deleteById(String id);
+
+    public List<String> findAllCat();
+
+    Categoria findByName(String nombre);
 }
