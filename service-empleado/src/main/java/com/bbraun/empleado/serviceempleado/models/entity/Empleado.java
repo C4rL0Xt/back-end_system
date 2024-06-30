@@ -25,7 +25,7 @@ public class Empleado {
     private String telefono;
     private String dni;
     private String direccion;
-    private Date fechaNacimiento;
+    private Date fechanacimiento;
     private String genero;
     private String cargo;
 }

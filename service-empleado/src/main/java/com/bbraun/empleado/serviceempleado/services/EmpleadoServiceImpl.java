@@ -33,7 +33,7 @@ public class EmpleadoServiceImpl implements IEmpleadoService{
                 .telefono(empleado.getTelefono())
                 .dni(empleado.getDni())
                 .direccion(empleado.getDireccion())
-                .fechaNacimiento( empleado.getFechaNacimiento())
+                .fechaNacimiento( empleado.getFechanacimiento())
                 .genero(empleado.getGenero())
                 .cargo(empleado.getCargo())
                 .build();
