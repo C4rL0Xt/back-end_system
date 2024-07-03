@@ -11,5 +11,6 @@ public class DetalleHojaDto {
 
     private String idproducto;
     private int cantidad;
+    private String nombreProducto;
 
 }

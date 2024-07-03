@@ -14,4 +14,6 @@ public interface IHojaService {
     public List<HojaIngresoDto> findAllHojaWithDetails();
 
     public HojaIngreso saveHojaIngresoWithDetails(HojaIngresoDto dto);
+
+    public List<HojaIngresoDto> findWithDetails();
 }

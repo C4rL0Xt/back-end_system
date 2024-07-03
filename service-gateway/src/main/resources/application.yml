@@ -38,6 +38,12 @@ spring:
             - Path=/api/rrhh/**
           filters:
             - StripPrefix=2
+        - id: service-doc-compra
+          uri: http://localhost:8008
+          predicates:
+                - Path=/api/doc-compra/**
+          filters:
+                - StripPrefix=2
 
 server:
   port: 9000

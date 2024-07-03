@@ -3,5 +3,7 @@
   <component name="JpaBuddyIdeaProjectConfig">
     <option name="defaultUnitInitialized" value="true" />
     <option name="renamerInitialized" value="true" />
+    <option name="reverseEngineeringLastDbConnectionId" value="4520ef29-511a-4262-acaa-10b8484a28c0__BBraunPharmaDB_dbo" />
+    <option name="reLastEntityCreationPackage" value="service-doc-compra/src/main/java/com/bbraun/documentos/compra/servicecompra/models/entity" />
   </component>
 </project>

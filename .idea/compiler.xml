@@ -7,12 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="service-doc-compra" />
+        <module name="service-auth-server" />
         <module name="service-resource-server" />
         <module name="producto" />
         <module name="eureka-server" />
         <module name="gateway" />
         <module name="service-empleado" />
-        <module name="service-auth-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -35,6 +36,7 @@
       <module name="producto" options="-parameters" />
       <module name="service-auth" options="-parameters" />
       <module name="service-auth-server" options="-parameters" />
+      <module name="service-doc-compra" options="-parameters" />
       <module name="service-empleado" options="-parameters" />
       <module name="service-lote" options="-parameters" />
       <module name="service-oauth" options="-parameters" />

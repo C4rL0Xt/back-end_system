@@ -16,6 +16,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HojaIngresoImpl implements IHojaService {
@@ -84,6 +85,41 @@ public class HojaIngresoImpl implements IHojaService {
             DetalleHoja detalleHoja = detalleHojaRepository.save(detalleHojaConverter.convertToEntityDetails(dto));
             return hojaIngresoUpdate;
         }
+    }
+
+    @Override
+    public List<HojaIngresoDto> findWithDetails() {
+        List<Object[]> results = hojaIngresoRepository.findAllWithDetails();
+        List<HojaIngresoDto> hojasConDetalles = new ArrayList<>();
+
+        for (Object[] row : results) {
+            String idHoja = (String) row[0];
+            Date fechaIngreso = (Date) row[1];
+
+            // Create HojaIngresoDto if it doesn't exist in the list
+            HojaIngresoDto hojaIngresoDto = hojasConDetalles.stream()
+                    .filter(h -> h.getIdhoja().equals(idHoja))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        HojaIngresoDto newHoja = new HojaIngresoDto();
+                        newHoja.setIdhoja(idHoja);
+                        newHoja.setFechaingreso(fechaIngreso);
+                        newHoja.setDetalles(new ArrayList<>());
+                        hojasConDetalles.add(newHoja);
+                        return newHoja;
+                    });
+
+            // Add DetalleHojaDto to HojaIngresoDto
+            DetalleHojaDto detalleHojaDto = DetalleHojaDto.builder()
+                    .idproducto((String) row[2])
+                    .cantidad((Integer) row[3])
+                    .nombreProducto((String) row[4])
+                    .build();
+
+            hojaIngresoDto.getDetalles().add(detalleHojaDto);
+        }
+
+        return hojasConDetalles;
     }
 
     public String getCodeHoja(String last_code){

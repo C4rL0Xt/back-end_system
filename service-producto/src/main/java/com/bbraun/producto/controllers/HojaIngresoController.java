@@ -63,4 +63,9 @@ public class HojaIngresoController {
         }
 
     }
+
+    @GetMapping("/data")
+    public List<HojaIngresoDto> getWithDetails(){
+        return hojaService.findWithDetails();
+    }
 }
