@@ -1,4 +1,4 @@
-package com.bbraun.pedidos.servicepedidos;
+package com.bbraun.pedidos.cotizacion;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -19,6 +19,8 @@ public interface IProductoService {
 
     public void deleteById(String id);
 
+    public ProductoPresentationDto findByNombreAndAndConcentracion(String nombre, String concentracion);
+
     List<Producto> findByIdCategoria(Categoria categoria);
 
     List<Producto> findByNombre(String nombre);
@@ -32,6 +34,8 @@ public interface IProductoService {
     public Producto createProductoWithLots(ProductoPresentationDto dto);
 
     public Producto updateProductoWithLots( ProductoPresentationDto dto);
+
+    public ProductoPresentationDto findProductoWithLots(String id);
 
 
 }

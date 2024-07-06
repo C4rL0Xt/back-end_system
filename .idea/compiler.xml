@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="service-doc-compra" />
+        <module name="service-cotizacion" />
         <module name="service-auth-server" />
         <module name="service-resource-server" />
         <module name="producto" />
@@ -36,6 +37,7 @@
       <module name="producto" options="-parameters" />
       <module name="service-auth" options="-parameters" />
       <module name="service-auth-server" options="-parameters" />
+      <module name="service-cotizacion" options="-parameters" />
       <module name="service-doc-compra" options="-parameters" />
       <module name="service-empleado" options="-parameters" />
       <module name="service-lote" options="-parameters" />

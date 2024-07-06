@@ -21,6 +21,8 @@
         <option value="$PROJECT_DIR$/test-api-g/pom.xml" />
         <option value="$PROJECT_DIR$/service-empleado/pom.xml" />
         <option value="$PROJECT_DIR$/service-doc-compra/pom.xml" />
+        <option value="$PROJECT_DIR$/service-pedidos/pom.xml" />
+        <option value="$PROJECT_DIR$/service-cotizacion/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

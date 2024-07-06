@@ -1,4 +1,4 @@
-package com.bbraun.pedidos.servicepedidos;
+package com.bbraun.pedidos.cotizacion;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

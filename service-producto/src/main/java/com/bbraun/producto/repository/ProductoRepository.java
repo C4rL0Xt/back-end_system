@@ -24,4 +24,6 @@ public interface ProductoRepository extends CrudRepository<Producto,String> {
     @Query("SELECT p.idProducto from Producto p order by p.idProducto desc")
     List<String> getLastCodeProducto();
 
+    Producto findByNombreAndAndConcentracion(String nombre, String concentracion);
+
 }

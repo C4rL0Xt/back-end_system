@@ -73,7 +73,12 @@ public class ProductoController {
 
         return  productoService.findLotesDisponibles(idproducto);
     }
-
+    @GetMapping("/buscar-producto")
+    public ProductoPresentationDto findProductoByNombreAndConcentracion(
+            @RequestParam("nombre") String nombre,
+            @RequestParam("concentracion") String concentracion) {
+        return productoService.findByNombreAndAndConcentracion(nombre, concentracion);
+    }
 
     @GetMapping("/pro-lot")
     public List<ProductoPresentationDto> getProductWithLots(){
@@ -84,6 +89,11 @@ public class ProductoController {
     @GetMapping("/last-code")
     public String getLastCodeProducto(){
         return productoService.getLastCodeProducto();
+    }
+
+    @GetMapping("/buscar-producto/{id}")
+    public ProductoPresentationDto findProductoWithLots(@PathVariable("id") String id){
+        return productoService.findProductoWithLots(id);
     }
 
 

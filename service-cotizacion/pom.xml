@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.bbraun.pedidos</groupId>
-    <artifactId>service-pedidos</artifactId>
+    <artifactId>service-cotizacion</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>service-pedidos</name>
     <description>service-pedidos</description>

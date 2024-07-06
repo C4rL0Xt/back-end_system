@@ -67,6 +67,19 @@ public class ProductoServiceImpl implements IProductoService {
         productoDAO.deleteById(id);
     }
 
+
+    @Override
+    public ProductoPresentationDto findByNombreAndAndConcentracion(String nombre, String concentracion) {
+        Producto producto = productoDAO.findByNombreAndAndConcentracion(nombre,concentracion);
+
+        ProductoPresentationDto productoDTO = new ProductoPresentationDto();
+        productoDTO.setConcentracion(producto.getConcentracion());
+        productoDTO.setName(producto.getNombre());
+        productoDTO.setPrice(producto.getPrecio());
+        productoDTO.setCode(producto.getIdProducto());
+        return productoDTO;
+    }
+
     @Override
     public List<Producto> findByIdCategoria(Categoria categoria) {
         return (List<Producto>) productoDAO.findByIdCategoria(categoria);
@@ -170,5 +183,37 @@ public class ProductoServiceImpl implements IProductoService {
 
 
         return updateProducto;
+    }
+
+    @Override
+    public ProductoPresentationDto findProductoWithLots(String id) {
+        Producto producto = productoDAO.findById(id).orElse(null);
+        if(producto == null){
+            throw new RuntimeException("Producto no encontrado");
+        }
+        ProductoPresentationDto dto = new ProductoPresentationDto();
+        dto.setCode(producto.getIdProducto());
+        dto.setCategory(producto.getIdCategoria().getCategoria());
+        dto.setType(producto.getIdFormaFarmaceutica().getForma());
+        dto.setDescription(producto.getDescripcion());
+        dto.setPrice(producto.getPrecio());
+        dto.setConcentracion(producto.getConcentracion());
+        dto.setName(producto.getNombre());
+        dto.setPresentation(producto.getPresentacion());
+        List<Lote> lotes = loteService.findLotesByProductoId(id);
+        List<LotePresentationDto> lots = new ArrayList<>();
+        for (Lote lote: lotes){
+
+            LotePresentationDto lotedto = new LotePresentationDto();
+            lotedto.setCode(lote.getIdlote());
+            lotedto.setOperativeStatus(lote.getEstadoOperativo().getEstado());
+            lotedto.setDisponibilityState(lote.getEstadosDisponibilidad().getEstado());
+            lotedto.setSecurityState(lote.getEstadoSeguridad().getEstado());
+            lotedto.setStock(lote.getStock());
+            lotedto.setExpiredDate(lote.getFechavencimiento());
+            lots.add(lotedto);
+        }
+        dto.setLots(lots);
+        return dto;
     }
 }
