@@ -56,7 +56,8 @@ public class CotizacionVentaController {
 
     @PostMapping("/create")
     public ResponseEntity<CotizacionVenta> createCotizacion(@RequestBody CotizacionVentaDTO dto){
-        CotizacionVenta cotizacionVenta = cotizacionVService.createCotizacionVentaWithDetails(dto);
+        CotizacionVenta cotizacionVenta = cotizacionVService.createCotizacionVentaW
+        ithDetails(dto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("/buscar-coti/{id}")
