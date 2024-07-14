@@ -12,4 +12,5 @@ public class DetalleCotizacionVentaDTO {
     private String producto;
     private String concentracion;
     private Integer cantidad;
+    private Float total;
 }

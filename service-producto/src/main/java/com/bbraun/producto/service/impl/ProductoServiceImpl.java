@@ -70,8 +70,9 @@ public class ProductoServiceImpl implements IProductoService {
 
     @Override
     public ProductoPresentationDto findByNombreAndAndConcentracion(String nombre, String concentracion) {
+        System.out.println("Este es el nombre: "+nombre+" concn: "+concentracion);
         Producto producto = productoDAO.findByNombreAndAndConcentracion(nombre,concentracion);
-
+        System.out.println("Este producto obtengo: "+producto.getNombre());
         ProductoPresentationDto productoDTO = new ProductoPresentationDto();
         productoDTO.setConcentracion(producto.getConcentracion());
         productoDTO.setName(producto.getNombre());

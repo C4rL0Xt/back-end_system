@@ -18,6 +18,7 @@ import com.bbraun.pedidos.cotizacion.util.ConverToEntity;
 import com.bbraun.pedidos.cotizacion.util.ConverterToDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -79,7 +80,7 @@ public class CotizacionVentaImpl implements ICotizacionVService {
                     .email(cotizacionVenta.getEmail())
                     .montoimpuesto(cotizacionVenta.getMonto_impuesto())
                     .montototal(cotizacionVenta.getMonto_total())
-                    .departamento(cotizacionVenta.getId_departamento().getNombreDepartamento())
+                    .departamento(departamentoRepository.findByIdDepartamento(cotizacionVenta.getId_departamento().getIdDepartamento()).getNombreDepartamento())
                     .build();
             List<DetalleCotizacionVenta> detalles = detalleCotizacionVentaRepository.findAllByIdcotizacion(cotizacionVenta.getId_cotizacion());
             List<DetalleCotizacionVentaDTO> details_dto = new ArrayList<>();
@@ -88,6 +89,8 @@ public class CotizacionVentaImpl implements ICotizacionVService {
                 DetalleCotizacionVentaDTO detallaDto = DetalleCotizacionVentaDTO.builder()
                         .idcotizacion(detail.getIdcotizacion())
                         .producto(producto.getName())
+                        .concentracion(producto.getConcentracion())
+                        .total(detail.getMonto())
                         .cantidad(detail.getCantidad())
                     .build();
                 details_dto.add(detallaDto);
@@ -123,9 +126,10 @@ public class CotizacionVentaImpl implements ICotizacionVService {
     }
 
     @Override
+    @Transactional
     public CotizacionVenta createCotizacionVentaWithDetails(CotizacionVentaDTO cotizacionVentaDTO) {
         Estado estado = estadoRepository.findByEstado(cotizacionVentaDTO.getEstado());
-        Departamento departamento = departamentoRepository.findByNombreDepartamento(cotizacionVentaDTO.getDepartamento());
+        Departamento departamento = departamentoRepository.findByIdDepartamento(Integer.parseInt(cotizacionVentaDTO.getDepartamento()));
         CotizacionVenta cotizacionVenta = converToEntity.convertToEntityCotizacionVenta(cotizacionVentaDTO,estado,departamento);
         CotizacionVenta cotizacionSaved = cotizacionVentaRepository.save(cotizacionVenta);
         List<DetalleCotizacionVenta> detalles = converToEntity.converToEntityDetalleVenta(cotizacionVentaDTO.getDetalles(),cotizacionVenta);
@@ -137,6 +141,8 @@ public class CotizacionVentaImpl implements ICotizacionVService {
     public CotizacionVentaDTO calculateMontos(CotizacionVentaDTO cotizacionVentaDTO) {
 
         Float montoproducto = 0.0f;
+        Float montototal = 0.0f;
+        List<DetalleCotizacionVentaDTO> detalles = new ArrayList<>();
         for (DetalleCotizacionVentaDTO detalle: cotizacionVentaDTO.getDetalles()) {
             String url = UriComponentsBuilder.fromHttpUrl("http://localhost:9000/api/almacen/producto/buscar-producto")
                     .queryParam("nombre", detalle.getProducto())
@@ -146,6 +152,14 @@ public class CotizacionVentaImpl implements ICotizacionVService {
             System.out.println("URL: " + url);
             Producto producto = (Producto) restTemplate.getForObject(url, Producto.class);
             if (producto != null && producto.getPrice() != null) {
+                DetalleCotizacionVentaDTO detalleDto = DetalleCotizacionVentaDTO.builder()
+                        .idcotizacion(cotizacionVentaDTO.getIdcotizacion())
+                        .producto(detalle.getProducto())
+                        .concentracion(detalle.getConcentracion())
+                        .cantidad(detalle.getCantidad())
+                        .total(producto.getPrice() * detalle.getCantidad())
+                        .build();
+                detalles.add(detalleDto);
                 montoproducto += producto.getPrice() * detalle.getCantidad();
             } else {
                 // Manejar el caso donde el producto no se encuentra
@@ -155,14 +169,35 @@ public class CotizacionVentaImpl implements ICotizacionVService {
         }
 
         Float montoimpuesto = montoproducto/18;
-        Float montototal = montoimpuesto + montoproducto;
+        montototal = montoimpuesto + montoproducto;
 
         CotizacionVentaDTO dto = CotizacionVentaDTO.builder()
                 .montoproducto(montoproducto)
                 .montoimpuesto(montoimpuesto)
                 .montototal(montototal)
+                .detalles(detalles)
                 .build();
 
         return dto;
+    }
+
+    @Override
+    @Transactional
+    public CotizacionVenta updateCotizacionVentaWithDetails(CotizacionVentaDTO dto) {
+        CotizacionVenta cotizacion = cotizacionVentaRepository.findById(dto.getIdcotizacion()).orElse(null);
+        Estado estado = estadoRepository.findByEstado(dto.getEstado());
+        Departamento departamento = departamentoRepository.findByNombreDepartamento(dto.getDepartamento());
+        if (cotizacion == null) {
+            // aea null
+            System.out.println("Cotización no encontrada");
+            return null;
+        }
+
+        cotizacion = (CotizacionVenta) converToEntity.convertToEntityCotizacionVenta(dto,estado, departamento);
+        CotizacionVenta cotizacion_saved = cotizacionVentaRepository.save(cotizacion);
+
+        List<DetalleCotizacionVenta> detalles = converToEntity.converToEntityDetalleVenta(dto.getDetalles(),cotizacion);
+        detalleCotizacionVentaRepository.saveAll(detalles);
+        return cotizacion_saved;
     }
 }

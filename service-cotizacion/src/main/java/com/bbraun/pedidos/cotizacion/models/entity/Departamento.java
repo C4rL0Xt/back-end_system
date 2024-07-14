@@ -16,7 +16,8 @@ import lombok.*;
 public class Departamento {
 
     @Id
-    private Integer id_departamento;
+    @Column(name = "id_departamento")
+    private Integer idDepartamento;
 
     @Column(name = "nombre_departamento")
     private String nombreDepartamento;

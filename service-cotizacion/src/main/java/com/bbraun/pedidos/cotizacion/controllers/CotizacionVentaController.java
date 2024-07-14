@@ -2,6 +2,7 @@ package com.bbraun.pedidos.cotizacion.controllers;
 
 import com.bbraun.pedidos.cotizacion.models.dto.CotizacionDtoPDF;
 import com.bbraun.pedidos.cotizacion.models.dto.CotizacionVentaDTO;
+import com.bbraun.pedidos.cotizacion.models.dto.DetalleCotizacionVentaDTO;
 import com.bbraun.pedidos.cotizacion.models.entity.CotizacionVenta;
 import com.bbraun.pedidos.cotizacion.models.entity.DetalleCotizacionVenta;
 import com.bbraun.pedidos.cotizacion.services.ICotizacionVService;
@@ -68,5 +69,15 @@ public class CotizacionVentaController {
     @PostMapping("/calculate")
     public CotizacionVentaDTO calculateMontos(@RequestBody CotizacionVentaDTO dto){
         return cotizacionVService.calculateMontos(dto);
+    }
+
+    @PutMapping("/update")
+    public CotizacionVenta updateCotizacion(@RequestBody CotizacionVentaDTO dto){
+        return cotizacionVService.updateCotizacionVentaWithDetails(dto);
+    }
+
+    @DeleteMapping("/delete/detalle")
+    public void deleteCotizacion(@RequestBody DetalleCotizacionVentaDTO dto){
+       detalleCotiVenta.delete(dto);
     }
 }

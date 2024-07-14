@@ -49,6 +49,7 @@ public class ConverToEntity {
             return DetalleCotizacionVenta.builder()
                     .idcotizacion(cotizacionVenta.getId_cotizacion())
                     .idproducto(producto != null ? producto.getCode() : null)
+                    .monto(detalle.getTotal())
                     .cantidad(detalle.getCantidad())
                     .build();
         }).collect(Collectors.toList());

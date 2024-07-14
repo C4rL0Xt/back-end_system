@@ -10,4 +10,6 @@ public interface DepartamentoRepository extends JpaRepository<Departamento,Integ
 
     public Departamento findByNombreDepartamento(String nombre_departamento);
 
+    public Departamento findByIdDepartamento(Integer id_departamento);
+
 }

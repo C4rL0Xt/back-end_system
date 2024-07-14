@@ -33,4 +33,6 @@ public class CotizacionVenta {
     @OneToOne
     @JoinColumn(name = "id_departamento")
     private Departamento id_departamento;
+
+
 }
