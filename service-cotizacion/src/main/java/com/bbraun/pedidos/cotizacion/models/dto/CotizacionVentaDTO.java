@@ -22,4 +22,5 @@ public class CotizacionVentaDTO {
     private Float montototal;
     private String departamento;
     private List<DetalleCotizacionVentaDTO> detalles;
+    private String dni;
 }

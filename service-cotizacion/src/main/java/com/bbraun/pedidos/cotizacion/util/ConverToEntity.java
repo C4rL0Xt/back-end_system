@@ -33,6 +33,7 @@ public class ConverToEntity {
                 .email(dto.getEmail())
                 .monto_impuesto(dto.getMontoimpuesto())
                 .monto_total(dto.getMontototal())
+                .dni(dto.getDni())
                 .id_departamento(departamento)
                 .build();
     }

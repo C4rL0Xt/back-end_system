@@ -80,6 +80,7 @@ public class CotizacionVentaImpl implements ICotizacionVService {
                     .email(cotizacionVenta.getEmail())
                     .montoimpuesto(cotizacionVenta.getMonto_impuesto())
                     .montototal(cotizacionVenta.getMonto_total())
+                    .dni(cotizacionVenta.getDni())
                     .departamento(departamentoRepository.findByIdDepartamento(cotizacionVenta.getId_departamento().getIdDepartamento()).getNombreDepartamento())
                     .build();
             List<DetalleCotizacionVenta> detalles = detalleCotizacionVentaRepository.findAllByIdcotizacion(cotizacionVenta.getId_cotizacion());

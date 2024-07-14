@@ -34,5 +34,7 @@ public class CotizacionVenta {
     @JoinColumn(name = "id_departamento")
     private Departamento id_departamento;
 
+    private String dni;
+
 
 }
