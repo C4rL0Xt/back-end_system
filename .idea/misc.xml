@@ -23,6 +23,7 @@
         <option value="$PROJECT_DIR$/service-doc-compra/pom.xml" />
         <option value="$PROJECT_DIR$/service-pedidos/pom.xml" />
         <option value="$PROJECT_DIR$/service-cotizacion/pom.xml" />
+        <option value="$PROJECT_DIR$/service-proveedor/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
