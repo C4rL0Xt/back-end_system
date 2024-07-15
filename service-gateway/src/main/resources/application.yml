@@ -50,6 +50,24 @@ spring:
             - Path=/api/cotizacion/**
           filters:
             - StripPrefix=2
+        - id: service-cliente
+          uri: http://localhost:3001
+          predicates:
+            - Path=/api/cliente/**
+          filters:
+            - StripPrefix=2
+        - id: service-pedido
+          uri: http://localhost:3002
+          predicates:
+            - Path=/api/pedido/**
+          filters:
+            - StripPrefix=2
+        - id: service-proveedor
+          uri: http://localhost:8010
+          predicates:
+            - Path=/api/proveedor/**
+          filters:
+            - StripPrefix=2
 
 server:
   port: 9000
