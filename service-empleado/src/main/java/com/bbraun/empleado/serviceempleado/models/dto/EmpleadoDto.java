@@ -10,7 +10,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class EmpleadoDto {
-
     private String idempleado;
     private String nombre;
     private String apellido;
