@@ -68,6 +68,12 @@ spring:
             - Path=/api/proveedor/**
           filters:
             - StripPrefix=2
+        - id: service-factura-venta
+          uri: http://localhost:3003
+          predicates:
+            - Path=/api/facturaventa/**
+          filters:
+            - StripPrefix=2
 
 server:
   port: 9000

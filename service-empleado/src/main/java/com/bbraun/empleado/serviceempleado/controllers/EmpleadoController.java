@@ -1,6 +1,7 @@
 package com.bbraun.empleado.serviceempleado.controllers;
 
 import com.bbraun.empleado.serviceempleado.models.dto.EmpleadoDto;
+import com.bbraun.empleado.serviceempleado.models.dto.TransportistaDTO;
 import com.bbraun.empleado.serviceempleado.models.entity.Empleado;
 import com.bbraun.empleado.serviceempleado.services.IEmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class EmpleadoController {
     private IEmpleadoService empleadoService;
 
 
+
+
     @GetMapping("/data/{email}")
     public ResponseEntity<EmpleadoDto> getEmpleadoPorEmail(@PathVariable String email){
         EmpleadoDto empleadoDto = empleadoService.findEmpleadoByEmail(email);
@@ -30,5 +33,10 @@ public class EmpleadoController {
     @GetMapping("/all")
     public List<Empleado> getEmpleados(){
         return (List<Empleado>) empleadoService.findAll();
+    }
+
+    @GetMapping("/listarActivos")
+    public List<TransportistaDTO> listarActivos(){
+        return (List<TransportistaDTO>) empleadoService.listarTransportista();
     }
 }
