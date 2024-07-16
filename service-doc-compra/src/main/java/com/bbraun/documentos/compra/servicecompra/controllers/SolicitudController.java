@@ -43,4 +43,9 @@ public class SolicitudController {
         return ResponseEntity.ok(solicitudCompra);
 
     }
+
+    @GetMapping("/listarpendientes")
+    public List<SolicitudCompraDto> listarPendientes(){
+        return solicitudCompraService.findSolicitudPendiente();
+    }
 }

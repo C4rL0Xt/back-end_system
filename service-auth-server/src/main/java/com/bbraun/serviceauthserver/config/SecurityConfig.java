@@ -89,6 +89,11 @@ public class SecurityConfig {
                 .oauth2ResourceServer((resourceServer) -> resourceServer
                         .jwt(Customizer.withDefaults()));
 
+        http.sessionManagement(sessionManagement ->
+                sessionManagement
+                        .maximumSessions(4)
+                        .sessionRegistry(sessionRegistry())
+        );
         return http.build();
     }
 
@@ -115,6 +120,12 @@ public class SecurityConfig {
         });
 
         http.csrf(csrf -> csrf.disable());
+
+        http.sessionManagement(sessionManagement ->
+                sessionManagement
+                        .maximumSessions(4) // Maximum number of concurrent sessions per user
+                        .sessionRegistry(sessionRegistry())
+        );
         return http.build();
     }
 

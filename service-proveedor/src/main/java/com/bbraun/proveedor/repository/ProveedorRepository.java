@@ -11,4 +11,8 @@ public interface ProveedorRepository extends JpaRepository<Proveedor,Integer> {
         @Query("select pr from Proveedor pr order by pr.rate desc")
         List<Proveedor> listarPorOrden();
 
+        Proveedor findByIdproveedor(String  idproveedor);
+
+        Proveedor findByEmpresa(String empresa);
+
 }

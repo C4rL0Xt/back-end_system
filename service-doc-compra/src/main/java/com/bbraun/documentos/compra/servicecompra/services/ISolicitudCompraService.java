@@ -17,4 +17,6 @@ public interface ISolicitudCompraService {
 
     public SolicitudCompra updateSolicitudCompra(SolicitudCompraDto dto);
 
+    public List<SolicitudCompraDto> findSolicitudPendiente();
+
 }

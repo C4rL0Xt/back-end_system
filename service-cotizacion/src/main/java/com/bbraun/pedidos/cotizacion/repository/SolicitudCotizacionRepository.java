@@ -13,4 +13,12 @@ public interface SolicitudCotizacionRepository extends JpaRepository<SolicitudCo
 
 
     List<SolicitudCotizacionCompra> findAll();
+
+    SolicitudCotizacionCompra findByIdSolicitudCompra(String idSolicitudCotizacion);
+
+    @Query("SELECT s.idSolicitudCotizacion from SolicitudCotizacionCompra s order by s.idSolicitudCotizacion desc")
+    List<String> getLastCode();
+
+    @Query("SELECT s.idSolicitudCotizacion from SolicitudCotizacionCompra s where s.idSolicitudCompra = ?1")
+    List<String> findBySolicitudCompra(String idSolicitudCompra);
 }

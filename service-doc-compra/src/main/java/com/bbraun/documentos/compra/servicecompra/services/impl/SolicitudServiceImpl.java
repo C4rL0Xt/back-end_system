@@ -75,4 +75,19 @@ public class SolicitudServiceImpl implements ISolicitudCompraService {
 
         return solicitudCompraRepository.save(solicitudCompra);
     }
+
+    @Override
+    public List<SolicitudCompraDto> findSolicitudPendiente() {
+        List<SolicitudCompra> list = solicitudCompraRepository.findAllByEstado(estadoRepository.findByEstado("Pendiente"));
+
+        return list.stream().map( result -> SolicitudCompraDto.builder()
+                .id_solicitud(result.getIdsolicitudcompra())
+                .estado(result.getEstado().getEstado())
+                .identificacion(result.getIdasistentecompra())
+                .nombreProducto(result.getNombreproducto())
+                .cantidadRequerida(result.getCantidad())
+                .plazoEntrega(result.getFecha_entrega())
+                .build())
+                .collect(Collectors.toList());
+    }
 }

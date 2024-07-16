@@ -1,6 +1,7 @@
 package com.bbraun.documentos.compra.servicecompra.repository;
 
 import com.bbraun.documentos.compra.servicecompra.models.dto.SolicitudCompraDto;
+import com.bbraun.documentos.compra.servicecompra.models.entity.Estado;
 import com.bbraun.documentos.compra.servicecompra.models.entity.SolicitudCompra;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,9 @@ public interface SolicitudCompraRepository extends JpaRepository<SolicitudCompra
             "FROM dbo.solicitudes_compra s " +
             "JOIN dbo.estados e on s.idEstado = e.idEstado", nativeQuery = true)
     List<Object[]> findAllWithEstado();
+
+    List<SolicitudCompra> findAllByEstado(Estado estado);
+
+
+
 }
