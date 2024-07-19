@@ -14,14 +14,12 @@ public class ConverterToDto {
 
     public CotizacionDtoPDF convertCotizacionEntityToDto(CotizacionVenta cotizacionVenta, List<DetalleDtoPDF> detalles){
         CotizacionDtoPDF cotizacionDto = CotizacionDtoPDF.builder()
-                .idcotizacion(cotizacionVenta.getId_cotizacion())
-                .estado(cotizacionVenta.getEstado().getEstado())
-                .cliente(cotizacionVenta.getNombre_cliente())
-                .monto_producto(cotizacionVenta.getMonto_producto())
+                .nombrecliente(cotizacionVenta.getNombre_cliente())
+                .montototal(cotizacionVenta.getMonto_producto())
                 .fecha_emision(cotizacionVenta.getFecha_emision())
-                .email(cotizacionVenta.getEmail())
-                .monto_impuesto(cotizacionVenta.getMonto_impuesto())
-                .monto_total(cotizacionVenta.getMonto_total())
+                .impuestos(cotizacionVenta.getMonto_impuesto())
+                .total(cotizacionVenta.getMonto_total())
+                .dnicliente(cotizacionVenta.getDni())
                 .departamento(cotizacionVenta.getId_departamento().getNombreDepartamento())
                 .detalles(detalles)
                 .build();
@@ -30,7 +28,9 @@ public class ConverterToDto {
 
     public DetalleDtoPDF converterDetallVToDto(DetalleCotizacionVenta detalleCotizacionVenta, Producto producto){
         DetalleDtoPDF detalleDto = DetalleDtoPDF.builder()
-                .producto(producto)
+                .preciounitario(producto.getPrice())
+                .producto(producto.getName())
+                .subtotal(detalleCotizacionVenta.getMonto())
                 .cantidad(detalleCotizacionVenta.getCantidad())
                 .build();
         return detalleDto;

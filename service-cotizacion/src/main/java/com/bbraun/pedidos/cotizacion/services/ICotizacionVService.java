@@ -14,7 +14,8 @@ public interface ICotizacionVService {
 
     public String lastCode();
 
-
+    public CotizacionVentaDTO getById(String id);
+    public CotizacionDtoPDF findCotizacionById(String idcotizacion);
 
     public List<CotizacionDtoPDF> findAllCotizaciones();
 

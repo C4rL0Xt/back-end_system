@@ -30,4 +30,6 @@ public interface CotizacionCompraRepository extends JpaRepository<CotizacionComp
     List<CotizacionPorSolicitudDto> findCotizacionesBySolicitudCompra(@Param("idSolicitudCompra") String idSolicitudCompra);
 
     CotizacionCompra findByIdSolicitudCotizacionAndIdProveedor(String idSolicitudCotizacion, String idProveedor);
+
+    List<CotizacionCompra> findAllByIdSolicitudCotizacion(String idSolicitudCotizacion);
 }

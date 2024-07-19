@@ -9,6 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class DetalleDtoPDF {
-    private Producto producto;
+    private String producto;
+    private Float preciounitario;
     private Integer cantidad;
+    private Float subtotal;
+
 }

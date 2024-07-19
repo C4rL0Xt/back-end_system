@@ -36,6 +36,8 @@ public class GuiaRemisionImpl implements IGuiaRemision{
 
     @Override
     public GuiaRemision updateGuia(GuiaRemision guiaRemision) {
+        System.out.println(guiaRemision.getIdguiaremision()+" "+guiaRemision.getIdempleado()+" "+guiaRemision.getFecha_envio()+" "+guiaRemision.getIdpedido());
+
         GuiaRemision guiaRemision1 = guiaRemisionRepository.findById(guiaRemision.getIdguiaremision()).orElse(null);
         GuiaRemision guia = GuiaRemision.builder()
                 .idguiaremision(guiaRemision1.getIdguiaremision())

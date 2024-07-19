@@ -69,21 +69,39 @@ public class HojaIngresoImpl implements IHojaService {
 
     @Override
     public HojaIngreso saveHojaIngresoWithDetails(HojaIngresoDto dto) {
-        Date fecha = new Date();
+        LocalDate today = LocalDate.now();
+        LocalDate fechaIngresoDto = LocalDate.ofInstant(dto.getFechaingreso().toInstant(), ZoneId.systemDefault());
+
+        // Obtener el último código de hoja de ingreso
         String last_code = hojaIngresoRepository.getLastCodeHoja().get(0);
 
-        if(!LocalDate.ofInstant(dto.getFechaingreso().toInstant(), ZoneId.systemDefault()).equals(LocalDate.now())){ //cuando es nueva hoja de ingreso
-            String code = getCodeHoja(last_code); //nuevo codigo para hoja
-            dto.setIdhoja(code); //seteamos el nuevo codigo
+        // Verificar si la hoja de ingreso es para hoy
+        if (fechaIngresoDto.equals(today)) { // Cuando es una hoja de ingreso del mismo día
+            // Obtener la hoja de ingreso existente para hoy
+            HojaIngreso hojaIngresoExistente = hojaIngresoRepository.findByFechaingreso(Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
+            if (hojaIngresoExistente != null) {
+                // Actualizar los detalles de la hoja de ingreso existente
+                dto.setIdhoja(last_code);
+                DetalleHoja detalleHoja = detalleHojaRepository.save(detalleHojaConverter.convertToEntityDetails(dto));
+                return hojaIngresoExistente;
+            } else {
+                // Crear una nueva hoja de ingreso para hoy
+                String code = getCodeHoja(last_code); // Nuevo código para la hoja
+                dto.setIdhoja(code); // Asignar el nuevo código
+                HojaIngreso hojaIngreso = detalleHojaConverter.convertToEntity(dto);
+                HojaIngreso hojaSaved = hojaIngresoRepository.save(hojaIngreso);
+                DetalleHoja detalleHoja = detalleHojaRepository.save(detalleHojaConverter.convertToEntityDetails(dto));
+                return hojaSaved;
+            }
+        } else { // Cuando es una hoja de ingreso para un día diferente
+            // Crear una nueva hoja de ingreso con un nuevo código
+            String code = getCodeHoja(last_code); // Nuevo código para la hoja
+            dto.setIdhoja(code); // Asignar el nuevo código
             HojaIngreso hojaIngreso = detalleHojaConverter.convertToEntity(dto);
             HojaIngreso hojaSaved = hojaIngresoRepository.save(hojaIngreso);
             DetalleHoja detalleHoja = detalleHojaRepository.save(detalleHojaConverter.convertToEntityDetails(dto));
             return hojaSaved;
-        }else {//cuando es una hoja de ingreso ya existente
-            dto.setIdhoja(last_code);
-            HojaIngreso hojaIngresoUpdate = hojaIngresoRepository.findByIdhoja(dto.getIdhoja());
-            DetalleHoja detalleHoja = detalleHojaRepository.save(detalleHojaConverter.convertToEntityDetails(dto));
-            return hojaIngresoUpdate;
         }
     }
 

@@ -48,4 +48,10 @@ public class SolicitudController {
     public List<SolicitudCompraDto> listarPendientes(){
         return solicitudCompraService.findSolicitudPendiente();
     }
+
+    @PutMapping("/actualizarestado/{idSolicitud}/{estado}")
+    public ResponseEntity<SolicitudCompra> actualizarEstado(@PathVariable String idSolicitud, @PathVariable Integer estado){
+        SolicitudCompra solicitudCompra = solicitudCompraService.updateState(idSolicitud, estado);
+        return ResponseEntity.ok(solicitudCompra);
+    }
 }

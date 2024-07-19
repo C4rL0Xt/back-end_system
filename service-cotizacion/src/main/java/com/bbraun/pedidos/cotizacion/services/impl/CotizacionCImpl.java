@@ -1,6 +1,7 @@
 package com.bbraun.pedidos.cotizacion.services.impl;
 
 import com.bbraun.pedidos.cotizacion.models.Proveedor;
+import com.bbraun.pedidos.cotizacion.models.SolicitudCompra;
 import com.bbraun.pedidos.cotizacion.models.dto.CotizacionPorSolicitudDto;
 import com.bbraun.pedidos.cotizacion.models.dto.DetalleCotizacionCompraDTO;
 import com.bbraun.pedidos.cotizacion.models.dto.SolicitudCotizacionDTO;
@@ -15,6 +16,9 @@ import com.bbraun.pedidos.cotizacion.repository.SolicitudCotizacionRepository;
 import com.bbraun.pedidos.cotizacion.services.ICotizacionCService;
 import com.bbraun.pedidos.cotizacion.util.CodigoGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -147,6 +151,29 @@ public class CotizacionCImpl implements ICotizacionCService{
                 System.out.println("Error processing cotizacion: " + e.getMessage());
             }
         });
+
+        Integer pendiente=0, aceptado=0, rechazado = 0;
+
+        for (int i=0; i<cotizaciones.size(); i++) {
+            if(cotizaciones.get(i).getEstado().getEstado().equals("Pendiente")){
+                pendiente++;
+            }else if(cotizaciones.get(i).getEstado().getEstado().equals("Aceptado")) {
+                aceptado++;
+            }else if(cotizaciones.get(i).getEstado().getEstado().equals("Rechazado")) {
+                rechazado++;
+            }
+        }
+
+        if (pendiente == cotizaciones.size() || (aceptado== 0 && rechazado<cotizaciones.size())){
+            updateEstadoSolicitud(idSolicitudCompra,1);
+
+        }else if (aceptado >= 1) {
+            updateEstadoSolicitud(idSolicitudCompra,2);
+        }else if (rechazado == cotizaciones.size()) {
+            updateEstadoSolicitud(idSolicitudCompra,3);
+        }
+
+
         return cotizacionesDTO;
     }
 
@@ -166,15 +193,48 @@ public class CotizacionCImpl implements ICotizacionCService{
                 .fechaEntrega(dto.getFechaEntregaCotizacion())
                 .estado(estado)
                 .build();
-
-
-        return cotizacionCompraRepository.save(cotizacion_update);
+        cotizacionCompraRepository.save(cotizacion_update);
+        updateSolicitudCompraEstado(solicitud);
+        return cotizacion_update;
     }
 
     @Override
     public String getCodeCotizacionSolicitud(String idSolicitudCompra) {
         SolicitudCotizacionCompra solicitudCotizacion = solicitudCotizacionRepository.findByIdSolicitudCompra(idSolicitudCompra);
         return solicitudCotizacion.getIdSolicitudCotizacion();
+    }
+
+    private void updateSolicitudCompraEstado(SolicitudCotizacionCompra solicitud) {
+        List<CotizacionCompra> cotizaciones = cotizacionCompraRepository.findAllByIdSolicitudCotizacion(solicitud.getIdSolicitudCotizacion());
+        Integer pendiente = 0, aceptado = 0, rechazado = 0;
+
+        for (CotizacionCompra cotizacion : cotizaciones) {
+            if (cotizacion.getEstado().getEstado().equals("Pendiente")) {
+                pendiente++;
+            } else if (cotizacion.getEstado().getEstado().equals("Aceptado")) {
+                aceptado++;
+            } else if (cotizacion.getEstado().getEstado().equals("Rechazado")) {
+                rechazado++;
+            }
+        }
+
+        if (pendiente == cotizaciones.size() || (aceptado == 0 && rechazado < cotizaciones.size())) {
+            updateEstadoSolicitud(solicitud.getIdSolicitudCompra(), 1);
+        } else if (aceptado >= 1) {
+            updateEstadoSolicitud(solicitud.getIdSolicitudCompra(), 2);
+        } else if (rechazado == cotizaciones.size()) {
+            updateEstadoSolicitud(solicitud.getIdSolicitudCompra(), 3);
+        }
+    }
+
+    private void updateEstadoSolicitud(String idSolictud, Integer estado){
+        String url = "http://localhost:9000/api/doc-compra/solicitud/actualizarestado/{idSolicitud}/{estado}";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<SolicitudCompra> response = restTemplate.exchange(url, org.springframework.http.HttpMethod.PUT, requestEntity, SolicitudCompra.class, idSolictud, estado);
+        System.out.println("response: " + response.getBody().getIdsolicitudcompra()+ " estado: " + response.getBody().getEstado().getEstado());
+
     }
 
 }

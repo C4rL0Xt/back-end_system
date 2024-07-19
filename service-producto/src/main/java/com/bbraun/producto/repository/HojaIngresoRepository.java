@@ -5,6 +5,7 @@ import com.bbraun.producto.models.entity.HojaIngreso;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Date;
 import java.util.List;
 
 public interface HojaIngresoRepository extends JpaRepository<HojaIngreso, String> {
@@ -19,4 +20,6 @@ public interface HojaIngresoRepository extends JpaRepository<HojaIngreso, String
             "JOIN dbo.detalles_hoja_ingreso d ON h.idHoja = d.idHoja " +
             "JOIN dbo.productos p ON d.idProducto = p.id_producto",nativeQuery = true)
     List<Object[]> findAllWithDetails();
+
+    HojaIngreso findByFechaingreso(Date fechaingreso);
 }

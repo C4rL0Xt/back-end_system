@@ -104,6 +104,25 @@ public class CotizacionVentaImpl implements ICotizacionVService {
     }
 
     @Override
+    public CotizacionDtoPDF findCotizacionById(String idcotizacion) {
+        CotizacionVenta cotizacionVenta = cotizacionVentaRepository.findById(idcotizacion).orElse(null);
+        if(cotizacionVenta != null){
+            List<DetalleCotizacionVenta> detalles = detalleCotizacionVentaRepository.findAllByIdcotizacion(idcotizacion);
+            List<DetalleDtoPDF> detalleDtos = new ArrayList<>();
+            for(DetalleCotizacionVenta detalle: detalles){
+                Producto producto = restTemplate.getForObject("http://localhost:9000/api/almacen/producto/buscar-producto/"+detalle.getIdproducto(),Producto.class);
+                DetalleDtoPDF detalleDto = converterToDto.converterDetallVToDto(detalle,producto);
+                detalleDtos.add(detalleDto);
+            }
+            CotizacionDtoPDF cotizacionDto = converterToDto.convertCotizacionEntityToDto(cotizacionVenta,detalleDtos);
+            return cotizacionDto;
+        }else {
+            return null;
+        }
+
+    }
+
+    @Override
     public List<CotizacionDtoPDF> findAllCotizaciones() {
         List<CotizacionVenta> cotizacionVentas = cotizacionVentaRepository.findAll();
 
@@ -200,5 +219,17 @@ public class CotizacionVentaImpl implements ICotizacionVService {
         List<DetalleCotizacionVenta> detalles = converToEntity.converToEntityDetalleVenta(dto.getDetalles(),cotizacion);
         detalleCotizacionVentaRepository.saveAll(detalles);
         return cotizacion_saved;
+    }
+
+    @Override
+    public CotizacionVentaDTO getById(String id) {
+        CotizacionVenta cotizacionVenta = cotizacionVentaRepository.findById(id).orElse(null);
+        CotizacionVentaDTO dto = CotizacionVentaDTO.builder()
+                .nombrecliente(cotizacionVenta.getNombre_cliente())
+                .dni(cotizacionVenta.getDni())
+                .email(cotizacionVenta.getEmail())
+                .departamento(cotizacionVenta.getId_departamento().getNombreDepartamento())
+                .build();
+        return dto;
     }
 }

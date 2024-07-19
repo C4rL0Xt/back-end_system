@@ -12,4 +12,7 @@ public interface CotizacionVentaRepository extends JpaRepository<CotizacionVenta
 
     @Query(value = "SELECT c.id_cotizacion FROM CotizacionVenta c ORDER BY c.id_cotizacion DESC")
     List<String> findLastCode();
+
+    @Query("SELECT c FROM CotizacionVenta c WHERE c.id_cotizacion = ?1")
+    CotizacionVenta findByIdCotizacion(String idCotizacion);
 }

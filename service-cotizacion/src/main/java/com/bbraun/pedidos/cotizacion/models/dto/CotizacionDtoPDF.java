@@ -11,15 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CotizacionDtoPDF {
-    private String idcotizacion;
-    private String estado;
-    private String cliente;
-    private Float monto_producto;
+    private String nombrecliente;
+    private Float montototal;
     private Date fecha_emision;
-    private String email;
-    private Float monto_impuesto;
-    private Float monto_total;
+    private String dnicliente;
+    private Float impuestos;
+    private Float total;
     private String departamento;
     private List<DetalleDtoPDF> detalles;
-
 }

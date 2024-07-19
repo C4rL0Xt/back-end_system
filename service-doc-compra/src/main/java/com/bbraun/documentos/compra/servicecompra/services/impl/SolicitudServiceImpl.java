@@ -90,4 +90,20 @@ public class SolicitudServiceImpl implements ISolicitudCompraService {
                 .build())
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public SolicitudCompra updateState(String idSolicitud, Integer estado) {
+        SolicitudCompra solicitudCompra = solicitudCompraRepository.findById(idSolicitud).orElse(null);
+        Estado estadoEntity = estadoRepository.findById(estado).orElse(null);
+        SolicitudCompra solicitudCompraUpdated = SolicitudCompra.builder()
+                .idsolicitudcompra(solicitudCompra.getIdsolicitudcompra())
+                .nombreproducto(solicitudCompra.getNombreproducto())
+                .idasistentealmacen(solicitudCompra.getIdasistentealmacen())
+                .idasistentecompra(solicitudCompra.getIdasistentecompra())
+                .cantidad(solicitudCompra.getCantidad())
+                .fecha_entrega(solicitudCompra.getFecha_entrega())
+                .estado(estadoEntity)
+                .build();
+        return solicitudCompraRepository.save(solicitudCompraUpdated);
+    }
 }
