@@ -7,7 +7,7 @@ Este proyecto es un sistema integral de logística diseñado para una empresa di
 - [Características Principales](#características-principales)
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
 - [Contribución](#contribución)
-
+- [video-demo](#demo)
 ## Características Principales
 - **Service doc-compras**: Microservicio para gestionar ordenes de compra y facturas de compra.
 - **Service-producto**: Microservicio para gestionar los productos con sus lotes respectivos, ademas de generar otros documentos importantes de almacen.
@@ -22,5 +22,7 @@ Este proyecto es un sistema integral de logística diseñado para una empresa di
 - **Base de Datos**: SQL Server
 - **Nube**: Azure App Services
 - **Herramientas**: Git, Docker
+## demo
+https://unmsmmail-my.sharepoint.com/:v:/g/personal/carlos_espinoza23_unmsm_edu_pe/EVVBBoGTIY9Pq8yRBDcBzBkB71-z9MlMVYhYp9qtdfGsig?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=yISCyr
 
 ## Se desplego en Azure App Service usando una subcripcion gratuita. !!ACTUALMENTE VENCIDA
